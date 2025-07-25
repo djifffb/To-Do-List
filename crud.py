@@ -7,7 +7,7 @@ from datetime import datetime
 from model import Task
 
 
-def cerate_task(task:Task):
+def create_task(task:Task):
 
     chars = string.ascii_letters + string.digits  # Все буквы (a-zA-Z) + цифры (0-9)
     random_id = ''.join(random.choice(chars) for _ in range(5))
@@ -24,7 +24,7 @@ def cerate_task(task:Task):
     except FileNotFoundError:
         data = {"tasks": []}
     
-    data = ["tasks"].append(new_task)
+    data["tasks"].append(new_task)
     
     with open("db.json", "w") as file:
         json.dump(data,file,indent=4)

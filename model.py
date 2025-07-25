@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 class Task(BaseModel):
-    id: int
+    id: str
     name: str
     description: str
     data_create: str
