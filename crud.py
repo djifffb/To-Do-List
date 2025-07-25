@@ -5,7 +5,7 @@ import string
 
 from datetime import datetime
 from model import Task
-
+from typing import Optional
 
 
 # -------------------- GET ---------------------
@@ -43,3 +43,34 @@ def create_task(task:Task):
         json.dump(data,file,indent=4)
     
 
+
+# ------------------- UPDATE -------------------
+
+def update_task(task:Task, task_id:str):
+    # открываем json
+    try:
+        with open("db.json","r") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        return {"status": "error", "message":"file not found!"}
+        
+    for i,d in enumerate(data["tasks"]):
+        if d["id"] == task_id:
+            print(f"d = {d}")
+            data["tasks"][i] = {
+                "id": task_id,  
+                "name": d["name"] if task.name.startswith("string") else task.name,
+                "description": d["description"] if task.description.startswith("string") else task.description,
+                "data_create": d["data_create"] if task.data_create.startswith("string") else  task.data_create
+            }
+            
+            with open("db.json","w") as file:
+                json.dump(data,file, indent=4)
+                
+            return {"status":"success", "message":"Task updated!"}
+    return {"status": "error", "message":"Error 404"}
+
+
+# ------------------- DELETE -------------------
+
+    
