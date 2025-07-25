@@ -7,17 +7,36 @@ from model import Task
 
 app = FastAPI()
 
+# -------------------- GET ---------------------
+
+
 @app.get("/")
 def default():
     return {"message":"this the home page"}
 
+
+@app.get("/tasks")
+def all_task():
+    return crud.all_task()
+
+
+
+
+
+# -------------------- POST --------------------
+
 @app.post("/tasks")
 def create_task(task: Task):
-    success = crud.create_task(task)
-    if not success:
-        return HTTPException(status_code=400, detail="Task with this ID already exists")
+    crud.create_task(task)
     return {"message": "Task added"}
     
+
+
+
+
+# ------------------- UPDATE -------------------
+# ------------------- DELETE -------------------
+
     
 
 
