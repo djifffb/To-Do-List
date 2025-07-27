@@ -17,8 +17,21 @@ def all_task():
     if all(v for v in data.values()):
         return data
     else:
-        return {"status":"error", "message":"there are no tasks!"}
+        return {"status":"error", "message":"There are no tasks!"}
 
+
+def task_by_id(task_id:str):
+    # открываем json
+    with open("db.json","r")as file:
+        data = json.load(file)
+        
+    # находим элемента json по id
+    for d in data["tasks"]:
+        if d["id"] == task_id:
+            return d
+        
+    return {"status":"error","message":"There is no task for this id"}
+    
 
 # -------------------- POST --------------------
 

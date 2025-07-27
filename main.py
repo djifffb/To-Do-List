@@ -14,10 +14,19 @@ app = FastAPI()
 def default():
     return {"message":"this the home page"}
 
-
 @app.get("/tasks")
 def all_task():
     return crud.all_task()
+
+
+@app.get("/tasks/{task_id}")
+def task_by_id(task_id:str):
+    return crud.task_by_id(task_id)
+
+
+# @app.get("/tasks/{task_name}")
+# def task_by_name(task_name:str):
+#     return crud.task_by_name(task_name)
 
 
 # -------------------- POST --------------------
