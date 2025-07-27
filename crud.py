@@ -37,12 +37,42 @@ def task_by_name(task_name:str):
     with open("db.json","r")as file:
         data = json.load(file)
         
+    list_d = []
     for d in data["tasks"]:
         if d["name"] == task_name:
-            return d
+            list_d.append(d)
         
+    if len(list_d) > 0:
+        return list_d
     return {"status":"error","message":"There is no task for this name"}
 
+
+def task_by_name_sort(task_name:str,sort_asc:bool):
+    list_d = task_by_name(task_name)
+    
+    if isinstance(list_d,dict):
+        return list_d
+    
+    if len(list_d) <= 1:
+        return list_d
+    
+    for i in range(0,len(list_d)):
+        itm = list_d[i]["data_create"]
+        index_itm = i
+        for j in range(i+1,len(list_d)):
+            time_j = list_d[j]["data_create"]
+            
+            if sort_asc: 
+                if itm > time_j:
+                    index_itm = j
+            else:
+                if itm < time_j:
+                    index_itm = j
+                
+        if index_itm != i:
+            list_d[i], list_d[index_itm] = list_d[index_itm], list_d[i]
+    
+    return list_d
 
 
 # -------------------- POST --------------------

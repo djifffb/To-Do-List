@@ -19,16 +19,19 @@ def all_task():
     return crud.all_task()
 
 
-@app.get("/task_id/{task_id}")
+@app.get("/task_by_id/{task_id}")
 def task_by_id(task_id:str):
     return crud.task_by_id(task_id)
 
 
-@app.get("/task_name/{task_name}")
+@app.get("/task_by_name/{task_name}")
 def task_by_name(task_name:str):
     return crud.task_by_name(task_name)
 
 
+@app.get("/task_by_name/{task_name}/{sort_asc}")
+def task_by_name_sort(task_name:str,sort_asc:bool):
+    return crud.task_by_name_sort(task_name,sort_asc)
 
 
 # -------------------- POST --------------------
