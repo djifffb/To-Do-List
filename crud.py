@@ -31,7 +31,19 @@ def task_by_id(task_id:str):
             return d
         
     return {"status":"error","message":"There is no task for this id"}
-    
+
+
+def task_by_name(task_name:str):
+    with open("db.json","r")as file:
+        data = json.load(file)
+        
+    for d in data["tasks"]:
+        if d["name"] == task_name:
+            return d
+        
+    return {"status":"error","message":"There is no task for this name"}
+
+
 
 # -------------------- POST --------------------
 
