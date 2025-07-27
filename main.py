@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 
 # import
 import crud 
@@ -20,18 +20,12 @@ def all_task():
     return crud.all_task()
 
 
-
-
-
-
 # -------------------- POST --------------------
 
 @app.post("/tasks")
 def create_task(task: Task):
-    crud.create_task(task)
-    return {"message": "Task added!"}
+    return crud.create_task(task)
     
-
 
 # ------------------- UPDATE -------------------
 
@@ -39,8 +33,11 @@ def create_task(task: Task):
 def update_task(task:Task, task_id:str):
     return crud.update_task(task, task_id)
 
+
 # ------------------- DELETE -------------------
 
-    
+@app.delete("/tasks/{task_id}")
+def delete_task(task_id:str):
+    return crud.delete_task(task_id)
 
 
