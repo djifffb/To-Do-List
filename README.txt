@@ -58,10 +58,10 @@
 🔹 PUT /tasks/{task_id}
     — Обновить задачу по id. Если в полях будет string, старое значение сохранится.
 
-🔹 DELETE /tasks/{task_id}
+🔹 DELETE /delete_task_by_id/{task_id}
     — Удалить задачу по id.
 
-🔹 DELETE /tasks/{task_name}
+🔹 DELETE /delete_tasks_by_name/{task_name}
     — Удаляет все задачи, у которых имя совпадает с {task_name}.
 
 
