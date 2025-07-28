@@ -50,8 +50,10 @@ def update_task(task:Task, task_id:str):
 
 # ------------------- DELETE -------------------
 
-@app.delete("/tasks/{task_id}")
+@app.delete("/delete_task_by_id/{task_id}")
 def delete_task(task_id:str):
     return crud.delete_task(task_id)
 
-
+@app.delete("/delete_tasks_by_name/{task_name}")
+def delete_by_name(task_name:str):
+    return crud.delete_task_by_name(task_name)

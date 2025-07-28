@@ -22,8 +22,11 @@ def all_task():
 
 def task_by_id(task_id:str):
     # открываем json
-    with open("db.json","r")as file:
-        data = json.load(file)
+    try:
+        with open("db.json","r")as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        return {"status": "error", "message":"file not found!"}
         
     # находим элемента json по id
     for d in data["tasks"]:
@@ -34,8 +37,11 @@ def task_by_id(task_id:str):
 
 
 def task_by_name(task_name:str):
-    with open("db.json","r")as file:
-        data = json.load(file)
+    try:
+        with open("db.json","r")as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        return {"status": "error", "message":"file not found!"}
         
     list_d = []
     for d in data["tasks"]:
@@ -131,7 +137,7 @@ def update_task(task:Task, task_id:str):
                 
                 
             return {"status":"success", "message":"Task updated!"}
-    return {"status": "error", "message":"Error! Task not updated!"}
+    return {"status": "error", "message":"No such task was found in json!"}
 
 
 # ------------------- DELETE -------------------
@@ -149,12 +155,34 @@ def delete_task(task_id:str):
         if d["id"] == task_id:
             data["tasks"].remove(d)
             
+    # обновляем json
+    with open("db.json","w") as file:
+        json.dump(data,file,indent=4)
+        
+        return {"status": "success", "message": "Task deleted!"}
+    return {"status": "error", "message": "No such task was found in json!"}        
+            
 
-            # обновляем json
-            with open("db.json","w") as file:
-                json.dump(data,file,indent=4)
-                
-            return {"status": "success", "message": "Task deleted"}
-    return {"status": "error", "message": "Task not deleted!"}        
-            
-            
+def delete_task_by_name(task_name:str):
+    
+    # открываем json
+    try:
+        with open("db.json","r") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        return {"status": "error", "message":"file not found!"}
+        
+    original_count = len(data["tasks"])
+    
+    # Фильтруем задачи, которые не совпадают по имени
+    data["tasks"] = [d for d in data["tasks"] if d["name"] != task_name]
+    
+    deleted_count = original_count - len(data["tasks"])
+
+    if deleted_count > 0:
+        # обновляем json
+        with open("db.json", "w") as file:
+            json.dump(data, file, indent=4)
+
+        return {"status": "success", "message": f"{deleted_count} task(s) deleted!"}
+    return {"status": "error", "message": "No such task was found in json!"}
